@@ -6,12 +6,16 @@ if __name__ == "__main__":
     t = time.time()
     print("Importing packages...")
 import retro
+import torch
+import numpy as np
+import random
 from stable_baselines3 import PPO
 from stable_baselines3 import A2C
 from stable_baselines3.common.vec_env import SubprocVecEnv, VecFrameStack, VecTransposeImage, VecNormalize
 from stable_baselines3.common.atari_wrappers import WarpFrame, MaxAndSkipEnv
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.callbacks import BaseCallback
+from stable_baselines3.common.utils import set_random_seed
 from configs.reward_wrappers import SpeedRewardWrapper, CollectorRewardWrapper
 if __name__ == "__main__":
     print(f"Packages imported! {round(time.time() - t, 2)}s")
@@ -49,6 +53,7 @@ Super straightforward
 total_timesteps -> how many timesteps the environment will train for
 num_envs -> how many environments will train at the same time
 headless -> False = see mario training in real time, True = no visuals, way faster training
+SEED -> Random seed for training
 """
 
 
@@ -60,9 +65,10 @@ SELECTED_PERSONA = "collector"
 LOAD_MODEL_NAME = "ppo_collector"
 SAVE_MODEL_NAME = LOAD_MODEL_NAME
 
-total_timesteps = 20_000
+total_timesteps = 1_000_000
 num_envs = 8
 headless = True
+SEED = 42
 
 # --------------------------------
 
@@ -73,6 +79,15 @@ if SELECTED_ALGO not in ("PPO", "A2C"):
 
 if SELECTED_PERSONA not in ("speedrunner", "collector"):
     print("selected_persona must be \"speedrunner\" or \"collector\"")
+
+# -------------------------- SEEDING -----------------------------
+# - Got the code for this from Sid (Doom environment in this repo)
+random.seed(SEED)
+np.random.seed(SEED)
+torch.manual_seed(SEED)
+if torch.cuda.is_available():
+    torch.cuda.manual_seed_all(SEED)
+set_random_seed(SEED)
 
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # ***********************************************************************************************************************************************************************************
