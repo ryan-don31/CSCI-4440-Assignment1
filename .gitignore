@@ -90,3 +90,6 @@ cover/
 
 # Profiling data
 .prof
+
+vizdoom_repo/
+_vizdoom.ini
