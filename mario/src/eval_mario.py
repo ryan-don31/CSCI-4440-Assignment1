@@ -25,11 +25,13 @@ Persona options:
 """
 
 
+# --------- Modify These ---------
 
 MODEL_NAME = "ppo_speedrunner"
 SELECTED_ALGO = "PPO"
 SELECTED_PERSONA = "speedrunner"
 
+# --------------------------------
 
 
 if SELECTED_ALGO not in ("PPO", "A2C"):

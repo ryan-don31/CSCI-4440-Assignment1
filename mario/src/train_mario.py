@@ -52,6 +52,7 @@ headless -> False = see mario training in real time, True = no visuals, way fast
 """
 
 
+# --------- Modify These ---------
 
 SELECTED_ALGO = "PPO"
 SELECTED_PERSONA = "collector"
@@ -63,6 +64,7 @@ total_timesteps = 20_000
 num_envs = 8
 headless = True
 
+# --------------------------------
 
 
 # --- Error checks for choosing unsupported algos or personas ---
