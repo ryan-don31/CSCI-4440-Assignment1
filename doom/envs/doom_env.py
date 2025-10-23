@@ -1,4 +1,4 @@
-from vizdoom import DoomGame
+from vizdoom import DoomGame, GameVariable
 import numpy as np
 import cv2
 from gymnasium import Env
@@ -248,54 +248,35 @@ class VizDoomGymCorridor(Env):
 
         For performing reward shaping on the scenario
         """
-        actions = np.identity(7)
-        movement_reward = self.game.make_action(actions[action], 4)  # Perform action for 4 tics
-        time.sleep(0.05)
+        actions = np.identity(self.number_of_actions)
+        movement_reward = self.game.make_action(actions[action], 4)
 
         reward = 0
         if self.game.get_state():
-            # Get the current game frame and convert to grayscale
-            state = self.game.get_state().screen_buffer
-            state = self.grayscale(state)
+            state = self.grayscale(self.game.get_state().screen_buffer)
+            health, damage_taken, hitcount, ammo, camera_angle = self.game.get_state().game_variables
 
-            # Extract relevant game variables
-            game_variables = self.game.get_state().game_variables
-            health, damage_taken, hitcount, ammo, CAMERA_ANGLE = game_variables
-
-            # Compute deltas (changes since last step)
-            damage_taken_delta = -damage_taken + self.damage_taken
-            self.damage_taken = damage_taken
+            # Compute deltas
+            damage_taken_delta = damage_taken - self.damage_taken
             hitcount_delta = hitcount - self.hitcount
-            self.hitcount = hitcount
             ammo_delta = ammo - self.ammo
+
+            # Update stored values
+            self.damage_taken = damage_taken
+            self.hitcount = hitcount
             self.ammo = ammo
 
-            # Penalize being off-center in corridor (camera alignment)
-            if 90 <= CAMERA_ANGLE <= 270:
-                camera_reward = -norm.pdf(CAMERA_ANGLE, 180, 28) * 10000
-            else:
-                camera_reward = 0
-
-            # Combine multiple reward components
+            # Reward shaping
+            camera_reward = -abs(camera_angle - 180) / 180
             reward = (
                 movement_reward
-                + damage_taken_delta * 10
                 + hitcount_delta * 210
                 + ammo_delta * 5
+                - damage_taken_delta * 10
                 + camera_reward
             )
-            
-            # print(reward) # very bad idea
         else:
-            # Return blank frame if game state unavailable
-            state = np.zeros(self.observation_space.shape)
-            ammo = 0
-            ammo_delta = 0 - self.ammo
-            health = 0
-            hitcount = 0
-            hitcount_delta = 0 - self.hitcount
-            damage_taken = 0
-            damage_taken_delta = 0 + self.damage_taken
+            state = np.zeros(self.observation_space.shape, dtype=np.uint8)
 
         # Wrap extra info into a dictionary
         info = {
@@ -310,11 +291,7 @@ class VizDoomGymCorridor(Env):
 
         # Episode termination logic
         terminated = self.game.is_episode_finished()
-        truncated = (
-            self.game.is_player_dead()
-            or self.game.is_player_dead()
-            or self.game.is_player_dead()
-        )
+        truncated = self.game.is_player_dead()
 
         return state, reward, terminated, truncated, info
 
@@ -324,21 +301,26 @@ class VizDoomGymCorridor(Env):
         """
         self.game.new_episode()
 
-        # Reset tracked variables
         self.damage_taken = 0
         self.hitcount = 0
         self.ammo = 26
 
-        # Get the initial game frame
-        state = self.game.get_state().screen_buffer
+        if self.game.get_state() is None:
+            time.sleep(0.05)
 
-        # Get initial info (e.g., ammo)
-        if self.game.get_state():
-            info = self.game.get_state().game_variables[0]
-        else:
-            info = 0
+        state = self.grayscale(self.game.get_state().screen_buffer)
 
-        return (self.grayscale(state), {"ammo": info})
+        info = {
+            "ammo": self.ammo,
+            "ammo_delta": 0,
+            "health": self.game.get_game_variable(GameVariable.HEALTH),
+            "hitcount": self.hitcount,
+            "hitcount_delta": 0,
+            "damage_taken": self.damage_taken,
+            "damage_taken_delta": 0,
+        }
+
+        return state, info
 
     def grayscale(self, observation):
         """
