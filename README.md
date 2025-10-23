@@ -8,4 +8,8 @@ TODO
 # DRL for Testing a Software System or Game
 ### CSCI 4440U Adv. Web Dev | Ryan Don, Siddhant Das, 2025
 
-<a href="./mario/README.md">
+---
+
+Please check out the documentation for each respective game:
+- <a href="./mario/README.md">Mario</a>
+- <a href="./doom/README.md">Doom</a>
