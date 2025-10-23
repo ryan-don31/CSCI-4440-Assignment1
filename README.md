@@ -1,5 +1,4 @@
 # DRL for Testing a Software System or Game
-### CSCI 4440U Adv. Web Dev 
 
 ### Ryan Don, Siddhant Das, 2025
 
@@ -16,7 +15,7 @@ Check out the README sections for each game:
 # Super Mario - NES
 
 <div style="text-align: center;">
-    <img style="width: 45%;" src="mario/notebooks/resources/marios.gif" alt="Several mario instances training" />
+    <img src="mario/notebooks/resources/marios.gif" alt="Several mario instances training" />
 </div>
 
 ## Background
