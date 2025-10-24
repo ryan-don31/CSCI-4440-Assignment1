@@ -172,6 +172,7 @@ class VizDoomGym(Env):
 
         terminated = self.game.is_episode_finished()
         truncated = self.game.is_player_dead()
+        reward = 0.0
 
         if self.game.get_state():
             state = self._process_frame(self.game.get_state().screen_buffer)
@@ -191,7 +192,7 @@ class VizDoomGym(Env):
         else:
             state = np.zeros(self.observation_space.shape, dtype=np.uint8)
             ammo, health, kills = 0, 0, 0
-            reward = -1.0 if truncated else 0.0
+            reward = -10.0 if truncated else 0.0
 
         info = {"ammo": ammo, "health": health, "killcount": kills}
         return state, reward, terminated, truncated, info
@@ -210,7 +211,8 @@ class VizDoomGym(Env):
             state = np.zeros(self.observation_space.shape, dtype=np.uint8)
             ammo, health, kills = 0, 0, 0
 
-        return state, {"ammo": ammo, "health": health, "killcount": kills}
+        info = {"ammo": ammo, "health": health, "killcount": kills}
+        return state, info
 
     def _process_frame(self, frame):
         gray = cv2.cvtColor(np.moveaxis(frame, 0, -1), cv2.COLOR_BGR2GRAY)
