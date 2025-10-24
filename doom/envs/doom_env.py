@@ -179,13 +179,15 @@ class VizDoomGym(Env):
             health = self.game.get_state().game_variables[1]  # HEALTH
             kills = self.game.get_state().game_variables[2]  # KILLCOUNT
 
-            # Reward shaping
-            reward = (kills - self.last_kills) * 1.0
+            # Reward shaping with kills
+            kill_delta = kills - self.last_kills
+            KILL_REWARD = 2.0 # double points
+            reward += kill_delta * KILL_REWARD
             self.last_kills = kills
 
             # Death penalty
             if truncated:
-                reward -= 1.0
+                reward -= 10.0
         else:
             state = np.zeros(self.observation_space.shape, dtype=np.uint8)
             ammo, health, kills = 0, 0, 0
@@ -249,7 +251,7 @@ class VizDoomGymCorridor(Env):
         For performing reward shaping on the scenario
         """
         actions = np.identity(self.number_of_actions)
-        movement_reward = self.game.make_action(actions[action], 4)
+        movement_reward = self.game.make_action(actions[action], 4) # points for literally doing any action
 
         reward = 0
         if self.game.get_state():
@@ -267,7 +269,9 @@ class VizDoomGymCorridor(Env):
             self.ammo = ammo
 
             # Reward shaping
-            camera_reward = -abs(camera_angle - 180) / 180
+            camera_reward = -abs(camera_angle - 180) / 180 # normalizing and giving it a negative value
+
+            camera_reward = camera_reward * 0.3
             reward = (
                 movement_reward
                 + hitcount_delta * 210
@@ -277,6 +281,15 @@ class VizDoomGymCorridor(Env):
             )
         else:
             state = np.zeros(self.observation_space.shape, dtype=np.uint8)
+                    # Define all variables to prevent UnboundLocalError
+            ammo = 0
+            ammo_delta = 0
+            health = 0
+            hitcount = 0
+            hitcount_delta = 0
+            damage_taken = 0
+            damage_taken_delta = 0
+            reward = 0
 
         # Wrap extra info into a dictionary
         info = {
@@ -287,6 +300,7 @@ class VizDoomGymCorridor(Env):
             "hitcount_delta":       hitcount_delta,
             "damage_taken":         damage_taken, 
             "damage_taken_delta":   damage_taken_delta,
+            "reward":               reward
         }
 
         # Episode termination logic
