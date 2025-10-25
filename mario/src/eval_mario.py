@@ -27,9 +27,9 @@ Persona options:
 
 # --------- Modify These ---------
 
-MODEL_NAME = "ppo_speedrunner"
-SELECTED_ALGO = "PPO"
-SELECTED_PERSONA = "speedrunner"
+MODEL_NAME = "a2c_collector" # /mario/models
+SELECTED_ALGO = "A2C"
+SELECTED_PERSONA = "collector"
 
 # --------------------------------
 

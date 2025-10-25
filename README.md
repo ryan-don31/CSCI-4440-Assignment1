@@ -16,7 +16,7 @@ Check out the README sections for each game:
 
 <div style="text-align: center;">
     <img src="mario/notebooks/resources/gifs/marios.gif" alt="Several mario instances training" />
-    
+
     Pictured: Training PPO mario speedrunner model with headless=False
 </div>
 
@@ -80,7 +80,7 @@ python3 -m src.train_mario
 
 Evaluating
 ```Shell
-cd /mario
+cd /mario/
 python3 -m src.eval_mario
 ```
 
