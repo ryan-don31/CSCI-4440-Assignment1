@@ -15,7 +15,7 @@ Check out the README sections for each game:
 # Super Mario - NES
 
 <div style="text-align: center;">
-    <img src="mario/notebooks/resources/marios.gif" alt="Several mario instances training" />
+    <img src="mario/notebooks/resources/gifs/marios.gif" alt="Several mario instances training" />
 </div>
 
 ## Background
