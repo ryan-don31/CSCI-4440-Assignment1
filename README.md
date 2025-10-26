@@ -10,6 +10,9 @@ Check out the README sections for each game:
 
 - [Doom](#doom)
 
+Go check out the notebooks for both games, as well:
+- Mario: <a href="./mario/notebooks/mario.ipynb">mario.ipynb</a>
+- Doom: <a href="./doom/src/train_deadly_corridor.ipynb">train_deadly_corridor.ipynb</a> and <a href="./doom/src/train_defend_center.ipynb.ipynb">train_defend_center.ipynb</a>
 ---
 
 # Super Mario - NES
@@ -45,7 +48,7 @@ source ./venv/bin/activate
 #### Install requirements
 ```Shell
 pip install -r requirements.txt 
-This may take quite a while, stable-retro and stable_baselines3 are especially big packages
+# This may take quite a while, stable-retro and stable_baselines3 are especially big packages
 ```
 
 #### (OPTIONAL) Install packages used for rendering in training
