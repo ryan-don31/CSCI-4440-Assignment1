@@ -111,8 +111,16 @@ The installation includes several built-in scenarios, each defined by configurat
 
 ## How to Setup
 
-TODO: Create setup instructions
+To setup vizdoom:
 
+```pip install vizdoom```
+
+Additional packages in `doom/requirements.txt`
+
+```
+cd doom
+pip install -r requirements.txt
+```
 
 ## How to train & evaluate
 
