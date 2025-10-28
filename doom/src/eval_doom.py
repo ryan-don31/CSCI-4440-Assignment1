@@ -52,22 +52,22 @@ def evaluate(model, scenario, episodes=10, render=True, resolution="1280x960"):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Evaluate a trained VizDoom agent.")
+    # parser = argparse.ArgumentParser(description="Evaluate a trained VizDoom agent.")
 
-    parser.add_argument("--algo", type=str, choices=["ppo", "a2c"], default="ppo",
-                        help="Algorithm used to train (ppo or a2c)")
-    parser.add_argument("--scenario", type=str, default="defend_the_center",
-                        help="Scenario name (defend_the_center, deadly_corridor)")
-    parser.add_argument("--timesteps", type=int, default=125000,
-                        help="Training step count used in filename (default: 125000)")
-    parser.add_argument("--episodes", type=int, default=10,
-                        help="Number of episodes to evaluate")
-    parser.add_argument("--headless", action="store_true",
-                        help="Disable rendering for faster evaluation (headless mode)")
+    # parser.add_argument("--algo", type=str, choices=["ppo", "a2c"], default="ppo",
+    #                     help="Algorithm used to train (ppo or a2c)")
+    # parser.add_argument("--scenario", type=str, default="defend_the_center",
+    #                     help="Scenario name (defend_the_center, deadly_corridor)")
+    # parser.add_argument("--timesteps", type=int, default=125000,
+    #                     help="Training step count used in filename (default: 125000)")
+    # parser.add_argument("--episodes", type=int, default=10,
+    #                     help="Number of episodes to evaluate")
+    # parser.add_argument("--headless", action="store_true",
+    #                     help="Disable rendering for faster evaluation (headless mode)")
 
-    args = parser.parse_args()
+    # args = parser.parse_args()
 
-    scenario_path = os.path.join(SCENARIO_BASE_DIR, f"{args.scenario}.cfg")
+    # scenario_path = os.path.join(SCENARIO_BASE_DIR, f"{args.scenario}.cfg")
 
 
 if __name__ == "__main__":
