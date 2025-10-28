@@ -1,0 +1,4 @@
+algo: "ppo"   # values are "ppo" or "a2c"
+scenario: "defend_the_center"   # values are "defend_the_center" or "deadly_corridor"
+episodes: 6
+timesteps: 125000   # must keep it at this number unless trained model is based on different no. of timesteps
