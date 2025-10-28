@@ -10,9 +10,9 @@ Check out the README sections for each game:
 
 - [Doom](#doom)
 
-Go check out the notebooks for both games, as well:
+Go check out the notebooks analysis for both games, as well:
 - Mario: <a href="./mario/notebooks/mario.ipynb">mario.ipynb</a>
-- Doom: <a href="./doom/src/train_deadly_corridor.ipynb">train_deadly_corridor.ipynb</a> and <a href="./doom/src/train_defend_center.ipynb.ipynb">train_defend_center.ipynb</a>
+- Doom: <a href="./doom/notebooks/doom_analysis.ipynb">doom_analysis.ipynb</a>
 ---
 
 # Super Mario - NES
@@ -98,10 +98,11 @@ Poliquin, M. (2025). *Stable Retro, a maintained fork of OpenAI's gym-retro*. Gi
 # Doom
 
 <div style="text-align: center;">
-    <img style="width: 45%;" src="" alt="Doom Training/Eval GIF" />
-
-    TODO: Make gif of doom
+    <img src="doom/notebooks/resources/gifs/ppo_deadly_corridor.gif" style="width: 45%;" src="" alt="Instance of DRL agent running in Doom" />
+    
+    PPO model agent running during the deadly corridor scenario.
 </div>
+Note: Gifs of all models in all scenarios can be found in `doom/notebooks/resources/gifs/` and analysis is provided in `doom/notebooks/doom_analysis.ipynb`
 
 ## Background
 
@@ -124,7 +125,31 @@ pip install -r requirements.txt
 
 ## How to train & evaluate
 
-TODO: Create train & eval instructions
+### Training
+
+Training is done within jupyter notebooks. To simply start training the models, run the cells from start to finish. More specifically, run the cell with `model.learn(...)` to start the training. The notebooks are seperated by scenarios and they are:
+
+-   <a href="./doom/src/train_deadly_corridor.ipynb">train_deadly_corridor.ipynb</a>
+-   <a href="./doom/src/train_defend_center.ipynb">train_defend_center.ipynb</a>
+
+The environments used by these training files is found in: <a href="./doom/envs/doom_env.py">doom_env.py</a>
+
+### Evaluation
+
+To evaluate the models run <a href="./doom/src/eval_doom.py">eval_doom.py</a>:
+
+```
+cd doom/
+python ./eval_doom.py
+```
+
+The evaluation program uses <a href="./doom/configs/eval.yaml">eval.yaml</a> as a configuration file for choosing the model and scenario. The possible values for the YAML configuration file are:
+-   `algo`
+    - `"ppo"` for Proximal Policy Optimization model 
+    - `"a2c"` for Advantage Actor Critic model
+-   `ppo`
+    - `"defend_the_center"` for Defend the Center scenario
+    - `"deadly_corridor` for Deadly Corridor scenario
 
 ### References
 
